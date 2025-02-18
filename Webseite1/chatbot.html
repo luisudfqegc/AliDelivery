@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot | Mein Online-Shop</title>
+    <style>
+        body {
+            font-family: Montserrat, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background: #f0f0f0;
+        }
+        .bot-message {
+            background: #007bff;
+            color: white;
+        }
+        .user-message {
+            background: #e1e1e1;
+            text-align: right;
+        }
+        .input-container {
+            display: flex;
+            margin-top: 20px;
+        }
+        .input-container input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .input-container button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            width: 20%;
+        }
+        .input-container button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container" id="chat-container">
+        <div class="message bot-message">Du hast die Zahlungsmethode PayPal ausgewählt. Bitte gib deine E-Mail-Adresse ein:</div>
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Schreib hier...">
+        <button onclick="sendMessage()">Senden</button>
+    </div>
+
+    <script>
+        let chatContainer = document.getElementById("chat-container");
+        let userInput = document.getElementById("user-input");
+
+        // Funktionsvariablen
+        let step = 1;
+        let email = "";
+        let address = "";
+
+        // Nachricht senden
+        function sendMessage() {
+            let userMessage = userInput.value.trim();
+            if (userMessage !== "") {
+                addMessage(userMessage, "user-message");
+
+                if (step === 1) {
+                    email = userMessage;
+                    addMessage("Vielen Dank! Bitte gib nun deine Adresse ein, ausschließlich Land, Adresse, Postleitzahl und Stadt:", "bot-message");
+                    step = 2;
+                } else if (step === 2) {
+                    address = userMessage;
+                    addMessage("Vielen Dank, dass Sie AliDelivery gewählt haben! Sie werden per E-Mail über den Zahlungsvorgang informiert.", "bot-message");
+                    step = 3;
+                }
+
+                // Eingabefeld zurücksetzen
+                userInput.value = "";
+            }
+        }
+
+        // Nachricht im Chat anzeigen
+        function addMessage(message, className) {
+            let newMessage = document.createElement("div");
+            newMessage.classList.add("message", className);
+            newMessage.textContent = message;
+            chatContainer.appendChild(newMessage);
+            chatContainer.scrollTop = chatContainer.scrollHeight; // Zum neuesten Beitrag scrollen
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warenkorb | Mein Online-Shop</title>
+    <style>
+        body {
+            font-family: Montserrat, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .cart-container {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .cart-item p {
+            margin: 0;
+        }
+
+        .cart-item button {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .cart-item button:hover {
+            background: #e60000;
+        }
+
+        .total-price {
+            text-align: right;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .checkout-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        .checkout-button:hover {
+            background: #218838;
+        }
+
+        .payment-methods {
+            display: none;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .payment-methods button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        .payment-methods button:hover {
+            background: #0056b3;
+        }
+
+        .startseite {
+            background: #007bff; 
+            color: white; 
+            border: none;
+            padding: 15px 0; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            font-size: 18px; 
+            width: 100%; 
+            text-align: center; 
+            display: block; 
+            margin: 10px 0;
+        }
+
+        .startseite:hover {
+            background: #218838;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Warenkorb</h1>
+    </header>
+
+    <div class="cart-container">
+        <div id="cart-items"></div>
+
+        <div class="total-price">
+            <p id="total-price">Gesamtpreis: 0€</p>
+        </div>
+
+        <button class="checkout-button" id="checkout-button">Bezahlen</button>
+        
+        <a href="index.html">
+        <button class="startseite" id="startseite">Zurück zur Startseite</button>
+        </a>
+
+        <div class="payment-methods" id="payment-methods">
+            <p>Wählen Sie eine Zahlungsmethode:</p>
+            <button id="paypal-button">PayPal</button>
+            <button id="klarna-button">Klarna</button>
+        </div>
+    </div>
+
+    <script>
+        // Warenkorb aus localStorage laden
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Funktion zum Laden der Warenkorb-Items und Gesamtpreis
+        function loadCart() {
+            const cartItemsContainer = document.getElementById("cart-items");
+            cartItemsContainer.innerHTML = '';  // Inhalt löschen
+
+            let totalPrice = 0;
+
+            cart.forEach((item, index) => {
+                const cartItem = document.createElement("div");
+                cartItem.classList.add("cart-item");
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}">
+                    <p>${item.name} - ${item.price}€</p>
+                    <button class="remove-btn" data-index="${index}">Entfernen</button>
+                `;
+                cartItemsContainer.appendChild(cartItem);
+                totalPrice += parseFloat(item.price); // Preis zum Gesamtpreis hinzufügen
+            });
+
+            // Gesamtpreis anzeigen
+            document.getElementById("total-price").textContent = `Gesamtpreis: ${totalPrice.toFixed(2)}€`;
+
+            // Entfernen Button
+            document.querySelectorAll(".remove-btn").forEach(button => {
+                button.addEventListener("click", function () {
+                    const index = this.getAttribute("data-index");
+                    cart.splice(index, 1);  // Produkt aus dem Warenkorb entfernen
+                    localStorage.setItem("cart", JSON.stringify(cart));  // Warenkorb im localStorage aktualisieren
+                    loadCart();  // Warenkorb neu laden
+                });
+            });
+        }
+
+        // Bezahlen Button
+        document.getElementById("checkout-button").addEventListener("click", function () {
+            document.getElementById("payment-methods").style.display = "block";  // Zahlungsmethoden anzeigen
+        });
+
+        // Zahlung per PayPal
+        document.getElementById("paypal-button").addEventListener("click", function () {
+            window.location.href = 'chatbot.html?payment=paypal';  // Weiterleitung zur Chatbot-Seite mit Parameter
+        });
+
+        // Zahlung per Klarna
+        document.getElementById("klarna-button").addEventListener("click", function () {
+            window.location.href = 'chatbot.html?payment=klarna';  // Weiterleitung zur Chatbot-Seite mit Parameter
+        });
+
+        // Warenkorb laden
+        loadCart();
+    </script>
+
+</body>
+</html>

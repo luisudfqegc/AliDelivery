@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mein Online-Shop</title>
+    <style>
+        body {
+            font-family: Montserrat, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: normal;
+        }
+
+        .shop {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Bildgrößen festlegen */
+        .product img {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        /* Titel und Preis */
+        .product h2, .product p {
+            margin: 10px 0;
+            text-align: left;
+        }
+
+        /* Button */
+        .product button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .product button:hover {
+            background: #218838;
+        }
+
+        /* Neue Info-Sektion */
+        .info-section {
+            background: white;
+            text-align: center;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-section p {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-section button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .info-section button:hover {
+            background: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Ali<span style="font-style: italic;">Delivery</span></h1>
+        <nav>
+            <a href="über.html">Home</a>  
+            <a href="#">Kategorien</a>			
+            <a href="kontakt.html">Kontakt</a>
+            <a href="warenkorb.html">🛒 Warenkorb</a>
+        </nav>
+    </header>
+
+    <section class="shop">
+        <div class="product">
+            <img src="https://http2.mlstatic.com/D_NQ_NP_764647-MLC52323799106_112022-O.webp" alt="Plüsch - Glumanda, offizielles Plüsch - 20cm">
+            <h2>Plüsch - Glumanda, offizielles Plüsch - 20cm</h2>
+            <p>Preis: 10,99€</p>
+            <button onclick="addToCart('Plüsch - Glumanda, offizielles Plüsch - 20cm', 'file:///C:/Users/moham/Downloads/usb7vmb5.png', 10.99)">In den Warenkorb</button>
+        </div>
+
+        <div class="product">
+            <img src="https://peluche-pokemon.fr/wp-content/uploads/2022/01/peluche-ectoplasma-670x670.jpg" alt="Plüsch - Gengar, offizielles Plüsch - 20cm">
+            <h2>Plüsch - <br> Gengar, offizielles Plüsch - 20cm</h2>
+            <p>Preis: 25,99€</p>
+            <button onclick="addToCart('Plüsch - Gengar, offizielles Plüsch - 20cm', 'https://ae-pic-a1.aliexpress-media.com/kf/Sd5d9bec783dc4881826eba0d1f838c4ff.jpg_220x220q75.jpg_.avif', 25.99)">In den Warenkorb</button>
+        </div>
+
+        <div class="product">
+            <img src="https://th.bing.com/th/id/OIP.gvwsJD84zZwENn1ZZgI0eAHaHa?w=600&h=600&rs=1&pid=ImgDetMain" alt="Produkt 3">
+            <h2>Cars Spielzeug, 6 Pack Car Spielzeugauto Set</h2>
+            <p>Preis: 8,99€</p>
+            <button onclick="addToCart('Cars Spielzeug, 6 Pack Car Spielzeugauto Set', 'https://m.media-amazon.com/images/I/71yB+ygd33L._AC_SX679_.jpg', 8.99)">In den Warenkorb</button>
+        </div>
+    </section>
+
+    <!-- Neue Sektion für Text und Button -->
+    <section class="info-section">
+        <p>Derzeit ist diese Webseite in Bearbeitung. Entdecke viele weitere Kategorien in unserem Shop. Wir bieten eine große Auswahl an Plüschtieren, Spielzeugen und mehr! Bitte kontaktiere uns für weitere Auswahl!</p>
+		    <a href="kontakt.html" class="kontakt-button-index">Kontaktiere uns sofort!</a>
+
+    </section>
+
+    <script>
+        // Funktion um Produkte zum Warenkorb hinzuzufügen
+        function addToCart(name, image, price) {
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+            // Produkt als Objekt in den Warenkorb einfügen
+            cart.push({ name, image, price });
+            localStorage.setItem("cart", JSON.stringify(cart));  // Speichern im localStorage
+            alert("Produkt wurde zum Warenkorb hinzugefügt!");
+        }
+    </script>
+
+</body>
+</html>
